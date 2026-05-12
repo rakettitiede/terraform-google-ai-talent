@@ -1,0 +1,15 @@
+# ── Required ─────────────────────────────────────────────────────────────────
+project_id      = "your-gcp-project-id"
+service_account = "SERVICE_ACCOUNT@your-gcp-project-id.iam.gserviceaccount.com"
+partner         = "your-company-name"   # e.g. "fraktio", "houston"
+
+# ── Images ───────────────────────────────────────────────────────────────────
+# Leave image_project_id empty to use your own AR repos (first deploy)
+# Set to "ai-cv-match-471207" to pull from Rakettitiede's registry (requires access grant)
+image_project_id = ""
+image_tag        = "v1.0.0"
+
+# ── Optional ─────────────────────────────────────────────────────────────────
+region           = "europe-north1"
+gemini_model     = "gemini-2.5-flash"
+cloud_run_suffix = ""   # set after first deploy
