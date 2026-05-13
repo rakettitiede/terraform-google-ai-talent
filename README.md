@@ -1,5 +1,7 @@
 # terraform-google-ai-talent
 
+[![Terraform Registry](https://img.shields.io/badge/terraform-registry-623CE4?logo=terraform)](https://registry.terraform.io/modules/rakettitiede/ai-talent/google/latest)
+
 Terraform module for deploying the [ai-talent](https://github.com/rakettitiede/ai-talent-platform) ecosystem on GCP.
 
 ## What gets deployed
