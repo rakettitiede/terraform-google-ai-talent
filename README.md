@@ -55,7 +55,7 @@ See [ai-talent-platform/assistants/slack-general-setup.md](https://github.com/ra
 
 ## partner variable
 
-`partner` is required and must be unique per company. It prefixes OpenAPI operationIds so Minna can identify results by source:
+`partner` is required and must be unique per company, so Minna can identify results by source:
 
 - `rakettitiede` → deploys full stack including Minna and Topi
 - `partner A`, `partner B`, etc. → deploys internal search + federation node only
