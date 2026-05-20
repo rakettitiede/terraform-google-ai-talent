@@ -62,7 +62,7 @@ See [ai-talent-platform/assistants/slack-general-setup.md](https://github.com/ra
 
 ## Docker images
 
-Images are pulled from GCP Artifact Registry. By default (`image_project_id = ""`), each partner builds and hosts their own images. To pull from Rakettitiede's registry (requires an access grant — contact Rakettitiede):
+Images are pulled from GCP Artifact Registry. By default (`image_project_id = ""`), to pull from Rakettitiede's registry (requires an access grant — contact Rakettitiede):
 
 ```hcl
 image_project_id = "ai-cv-match-471207"
