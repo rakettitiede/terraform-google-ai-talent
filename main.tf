@@ -23,7 +23,7 @@ resource "google_cloud_run_v2_service" "agileday" {
   template {
     service_account = var.service_account
     containers {
-      image = "${var.region}-docker.pkg.dev/${var.image_project_id}/mcp-agileday/mcp-agileday:${var.image_tag}"
+      image = "${var.region}-docker.pkg.dev/${var.artifact_registry_project_id}/mcp-agileday/mcp-agileday:${var.image_tags.agileday}"
       env {
         name  = "NODE_ENV"
         value = "production"
@@ -31,10 +31,6 @@ resource "google_cloud_run_v2_service" "agileday" {
       env {
         name  = "PARTNER"
         value = var.partner
-      }
-      env {
-        name  = "SERVER_URL"
-        value = "https://mcp-agileday-${var.cloud_run_suffix}.run.app"
       }
       env {
         name = "GOOGLE_CLIENT_ID"
@@ -119,7 +115,7 @@ resource "google_cloud_run_v2_service" "pyry" {
   template {
     service_account = var.service_account
     containers {
-      image = "${var.region}-docker.pkg.dev/${var.image_project_id}/ai-talent-search-pyry/ai-talent-search-pyry:${var.image_tag}"
+      image = "${var.region}-docker.pkg.dev/${var.artifact_registry_project_id}/ai-talent-search-pyry/ai-talent-search-pyry:${var.image_tags.pyry}"
       env {
         name  = "NODE_ENV"
         value = "production"
@@ -211,7 +207,7 @@ resource "google_cloud_run_v2_service" "network_mcp" {
   template {
     service_account = var.service_account
     containers {
-      image = "${var.region}-docker.pkg.dev/${var.image_project_id}/mcp-talent-network/mcp-talent-network:${var.image_tag}"
+      image = "${var.region}-docker.pkg.dev/${var.artifact_registry_project_id}/mcp-talent-network/mcp-talent-network:${var.image_tags.network_mcp}"
       env {
         name  = "NODE_ENV"
         value = "production"
@@ -219,10 +215,6 @@ resource "google_cloud_run_v2_service" "network_mcp" {
       env {
         name  = "PARTNER"
         value = var.partner
-      }
-      env {
-        name  = "SERVER_URL"
-        value = "https://mcp-talent-network-${var.cloud_run_suffix}.run.app"
       }
       env {
         name = "GOOGLE_CLIENT_ID"
@@ -303,7 +295,7 @@ resource "google_cloud_run_v2_service" "minna" {
   template {
     service_account = var.service_account
     containers {
-      image = "${var.region}-docker.pkg.dev/${var.image_project_id}/ai-talent-network-minna/ai-talent-network-minna:${var.image_tag}"
+      image = "${var.region}-docker.pkg.dev/${var.artifact_registry_project_id}/ai-talent-network-minna/ai-talent-network-minna:${var.image_tags.minna}"
       env {
         name  = "NODE_ENV"
         value = "production"
@@ -401,7 +393,7 @@ resource "google_cloud_run_v2_service" "bench_mcp" {
   template {
     service_account = var.service_account
     containers {
-      image = "${var.region}-docker.pkg.dev/${var.image_project_id}/ai-talent-bench-mcp/ai-talent-bench-mcp:${var.image_tag}"
+      image = "${var.region}-docker.pkg.dev/${var.artifact_registry_project_id}/ai-talent-bench-mcp/ai-talent-bench-mcp:${var.image_tags.bench_mcp}"
       env {
         name  = "NODE_ENV"
         value = "production"
@@ -436,7 +428,7 @@ resource "google_cloud_run_v2_service" "topi" {
   template {
     service_account = var.service_account
     containers {
-      image = "${var.region}-docker.pkg.dev/${var.image_project_id}/ai-talent-bench-topi/ai-talent-bench-topi:${var.image_tag}"
+      image = "${var.region}-docker.pkg.dev/${var.artifact_registry_project_id}/ai-talent-bench-topi/ai-talent-bench-topi:${var.image_tags.topi}"
       env {
         name  = "NODE_ENV"
         value = "production"

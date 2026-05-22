@@ -35,7 +35,7 @@ terraform apply -var="project_id=your-project-id"
 
 ```bash
 cp terraform.tfvars.example terraform.tfvars
-# fill in project_id, service_account, partner, image_tag
+# fill in project_id, service_account, partner, image_tags
 
 terraform init -backend-config=backend.tfvars
 terraform plan
@@ -62,11 +62,20 @@ See [ai-talent-platform/assistants/slack-general-setup.md](https://github.com/ra
 
 ## Docker images
 
-Images are pulled from GCP Artifact Registry. By default (`image_project_id = ""`), to pull from Rakettitiede's registry (requires an access grant — contact Rakettitiede):
+Images are pulled from Rakettitiede's Artifact Registry (`ai-cv-match-471207`) by default. Each service is pinned independently via the `image_tags` map:
 
 ```hcl
-image_project_id = "ai-cv-match-471207"
+image_tags = {
+  agileday    = "v3.9.0"
+  pyry        = "v1.3.0"
+  network_mcp = "v0.6.0"
+  minna       = "v1.2.0"
+  bench_mcp   = "v1.3.0"
+  topi        = "v1.4.0"
+}
 ```
+
+To self-host images, override `artifact_registry_project_id` with your own GCP project ID.
 
 ## GCP AR access grant (Rakettitiede runs this for each partner)
 

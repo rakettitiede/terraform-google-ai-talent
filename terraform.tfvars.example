@@ -4,12 +4,15 @@ service_account = "SERVICE_ACCOUNT@your-gcp-project-id.iam.gserviceaccount.com"
 partner         = "your-company-name"
 
 # ── Images ───────────────────────────────────────────────────────────────────
-# Leave image_project_id empty to use your own AR repos (first deploy)
-# Set to "ai-cv-match-471207" to pull from Rakettitiede's registry (requires access grant)
-image_project_id = ""
-image_tag        = "v1.0.0"
+image_tags = {
+  agileday    = "v3.9.0"
+  pyry        = "v1.3.0"
+  network_mcp = "v0.6.0"
+  minna       = "v1.2.0"
+  bench_mcp   = "v1.3.0"
+  topi        = "v1.4.0"
+}
 
 # ── Optional ─────────────────────────────────────────────────────────────────
-region           = "europe-north1"
-gemini_model     = "gemini-2.5-flash"
-cloud_run_suffix = ""   # set after first deploy
+region       = "europe-north1"
+gemini_model = "gemini-2.5-flash"
