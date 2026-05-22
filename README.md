@@ -66,11 +66,11 @@ Images are pulled from Rakettitiede's Artifact Registry (`ai-cv-match-471207`) b
 
 ```hcl
 image_tags = {
-  agileday    = "v3.8.0"
+  agileday    = "v3.9.0"
   pyry        = "v1.3.0"
-  network_mcp = "v0.5.0"
+  network_mcp = "v0.6.0"
   minna       = "v1.2.0"
-  bench_mcp   = "v1.2.0"
+  bench_mcp   = "v1.3.0"
   topi        = "v1.4.0"
 }
 ```
