@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.0.0](https://github.com/rakettitiede/terraform-google-ai-talent/compare/v1.0.0...v2.0.0) (2026-05-22)
+
+
+### ⚠ BREAKING CHANGES
+
+* per-service image_tags + artifact_registry_project_id constant ([#7](https://github.com/rakettitiede/terraform-google-ai-talent/issues/7))
+
+### Features
+
+* per-service image_tags + artifact_registry_project_id constant ([#7](https://github.com/rakettitiede/terraform-google-ai-talent/issues/7)) ([893395c](https://github.com/rakettitiede/terraform-google-ai-talent/commit/893395c0b17c43aad603f5fa603b01e58a2df1e8))
+
 ## 1.0.0 (2026-05-13)
 
 
