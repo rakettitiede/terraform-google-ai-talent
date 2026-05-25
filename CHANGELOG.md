@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.0](https://github.com/rakettitiede/terraform-google-ai-talent/compare/v2.0.0...v2.1.0) (2026-05-25)
+
+
+### Features
+
+* publish bootstrap as a submodule under modules/bootstrap ([#9](https://github.com/rakettitiede/terraform-google-ai-talent/issues/9)) ([72ae06a](https://github.com/rakettitiede/terraform-google-ai-talent/commit/72ae06a9dcbdcd600380accfe0e37fa461d84839))
+
 ## [2.0.0](https://github.com/rakettitiede/terraform-google-ai-talent/compare/v1.0.0...v2.0.0) (2026-05-22)
 
 
