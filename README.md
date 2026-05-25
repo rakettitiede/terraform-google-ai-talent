@@ -25,15 +25,38 @@ Terraform module for deploying the [ai-talent](https://github.com/rakettitiede/a
 
 ### 1. Bootstrap (once per project)
 
-```bash
-cd bootstrap
-terraform init
-terraform apply -var="project_id=your-project-id"
+Create a scratch directory and pull the bootstrap submodule straight from the Terraform Registry — no need to clone the repo:
+
+```fish
+mkdir /tmp/bootstrap-scratch && cd /tmp/bootstrap-scratch
 ```
 
-### 2. Deploy
+Create a `main.tf`:
 
-```bash
+```hcl
+module "bootstrap" {
+  source  = "rakettitiede/ai-talent/google//modules/bootstrap"
+  version = "~> 2.0"
+  project_id = "your-gcp-project-id"
+}
+
+output "state_bucket" {
+  value = module.bootstrap.state_bucket
+}
+```
+
+```fish
+terraform init
+terraform apply
+# note the state_bucket output, then clean up:
+cd .. && rm -rf /tmp/bootstrap-scratch
+```
+
+> The bootstrap module uses local state (throwaway) because it creates the very GCS bucket that the root module needs for remote state.
+
+### 2. Deploy (ongoing)
+
+```fish
 cp terraform.tfvars.example terraform.tfvars
 # fill in project_id, service_account, partner, image_tags
 

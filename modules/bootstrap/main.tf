@@ -20,7 +20,3 @@ resource "google_storage_bucket" "terraform_state" {
   force_destroy = false
   lifecycle { prevent_destroy = true }
 }
-
-output "state_bucket" {
-  value = google_storage_bucket.terraform_state.name
-}

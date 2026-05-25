@@ -10,4 +10,4 @@ override.tf.json
 crash.log
 crash.*.log
 *.tfplan
-bootstrap/.terraform.lock.hcl
+modules/bootstrap/.terraform.lock.hcl
