@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.0](https://github.com/rakettitiede/terraform-google-ai-talent/compare/v2.1.0...v2.2.0) (2026-05-27)
+
+
+### Features
+
+* terraform-managed API_KEY via Secret Manager ([#12](https://github.com/rakettitiede/terraform-google-ai-talent/issues/12)) ([2d41194](https://github.com/rakettitiede/terraform-google-ai-talent/commit/2d41194a0fcc0e81169f3333ffb3711ad1e03022))
+
 ## [2.1.0](https://github.com/rakettitiede/terraform-google-ai-talent/compare/v2.0.0...v2.1.0) (2026-05-25)
 
 
