@@ -118,7 +118,7 @@ resource "random_password" "agileday_api_key" {
 
 resource "google_secret_manager_secret" "agileday_api_key" {
   project   = var.project_id
-  secret_id = "mcp-agileday-api-key"
+  secret_id = "ai-talent-search-mcp-api-key"
   replication {
     auto {}
   }
@@ -327,7 +327,7 @@ resource "random_password" "network_mcp_api_key" {
 
 resource "google_secret_manager_secret" "network_mcp_api_key" {
   project   = var.project_id
-  secret_id = "mcp-talent-network-api-key"
+  secret_id = "ai-talent-network-mcp-api-key"
   replication {
     auto {}
   }
