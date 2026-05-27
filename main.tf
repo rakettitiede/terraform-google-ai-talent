@@ -50,6 +50,15 @@ resource "google_cloud_run_v2_service" "agileday" {
           }
         }
       }
+      env {
+        name = "API_KEY"
+        value_source {
+          secret_key_ref {
+            secret  = google_secret_manager_secret.agileday_api_key.secret_id
+            version = "latest"
+          }
+        }
+      }
     }
   }
 }
@@ -96,6 +105,28 @@ resource "google_secret_manager_secret" "agileday_client_secret" {
   replication {
     auto {}
   }
+}
+
+resource "random_password" "agileday_api_key" {
+  length  = 64
+  special = false
+
+  keepers = {
+    trigger = timestamp()
+  }
+}
+
+resource "google_secret_manager_secret" "agileday_api_key" {
+  project   = var.project_id
+  secret_id = "ai-talent-search-mcp-api-key"
+  replication {
+    auto {}
+  }
+}
+
+resource "google_secret_manager_secret_version" "agileday_api_key" {
+  secret      = google_secret_manager_secret.agileday_api_key.id
+  secret_data = random_password.agileday_api_key.result
 }
 
 # ── Pyry (internal Slack bot) ─────────────────────────────────────────────────
@@ -234,6 +265,15 @@ resource "google_cloud_run_v2_service" "network_mcp" {
           }
         }
       }
+      env {
+        name = "API_KEY"
+        value_source {
+          secret_key_ref {
+            secret  = google_secret_manager_secret.network_mcp_api_key.secret_id
+            version = "latest"
+          }
+        }
+      }
     }
   }
 }
@@ -274,6 +314,28 @@ resource "google_secret_manager_secret" "network_client_secret" {
   replication {
     auto {}
   }
+}
+
+resource "random_password" "network_mcp_api_key" {
+  length  = 64
+  special = false
+
+  keepers = {
+    trigger = timestamp()
+  }
+}
+
+resource "google_secret_manager_secret" "network_mcp_api_key" {
+  project   = var.project_id
+  secret_id = "ai-talent-network-mcp-api-key"
+  replication {
+    auto {}
+  }
+}
+
+resource "google_secret_manager_secret_version" "network_mcp_api_key" {
+  secret      = google_secret_manager_secret.network_mcp_api_key.id
+  secret_data = random_password.network_mcp_api_key.result
 }
 
 # ── Minna (Rakettitiede only) ─────────────────────────────────────────────────
@@ -398,6 +460,15 @@ resource "google_cloud_run_v2_service" "bench_mcp" {
         name  = "NODE_ENV"
         value = "production"
       }
+      env {
+        name = "API_KEY"
+        value_source {
+          secret_key_ref {
+            secret  = google_secret_manager_secret.bench_mcp_api_key[0].secret_id
+            version = "latest"
+          }
+        }
+      }
     }
   }
 }
@@ -512,4 +583,29 @@ resource "google_secret_manager_secret" "topi_signing_secret" {
   replication {
     auto {}
   }
+}
+
+resource "random_password" "bench_mcp_api_key" {
+  count   = local.is_rakettitiede ? 1 : 0
+  length  = 64
+  special = false
+
+  keepers = {
+    trigger = timestamp()
+  }
+}
+
+resource "google_secret_manager_secret" "bench_mcp_api_key" {
+  count     = local.is_rakettitiede ? 1 : 0
+  project   = var.project_id
+  secret_id = "ai-talent-bench-mcp-api-key"
+  replication {
+    auto {}
+  }
+}
+
+resource "google_secret_manager_secret_version" "bench_mcp_api_key" {
+  count       = local.is_rakettitiede ? 1 : 0
+  secret      = google_secret_manager_secret.bench_mcp_api_key[0].id
+  secret_data = random_password.bench_mcp_api_key[0].result
 }
