@@ -41,6 +41,14 @@ resource "google_cloud_run_v2_service" "agileday" {
         value = var.agileday_base_url
       }
       env {
+        name  = "GCP_PROJECT_ID"
+        value = var.project_id
+      }
+      env {
+        name  = "GCP_LOCATION"
+        value = var.region
+      }
+      env {
         name = "GOOGLE_CLIENT_ID"
         value_source {
           secret_key_ref {
