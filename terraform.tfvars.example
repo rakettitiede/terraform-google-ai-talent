@@ -1,7 +1,8 @@
 # ── Required ─────────────────────────────────────────────────────────────────
 project_id      = "your-gcp-project-id"
 service_account = "SERVICE_ACCOUNT@your-gcp-project-id.iam.gserviceaccount.com"
-partner         = "your-company-name"
+partner            = "your-company-name"
+agileday_base_url  = "https://api.agileday.example.com"
 
 # ── Images ───────────────────────────────────────────────────────────────────
 image_tags = {
