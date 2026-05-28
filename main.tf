@@ -134,7 +134,7 @@ resource "random_password" "agileday_api_key" {
   special = false
 
   keepers = {
-    trigger = timestamp()
+    image_tag = var.image_tags.agileday
   }
 }
 
@@ -343,7 +343,7 @@ resource "random_password" "network_mcp_api_key" {
   special = false
 
   keepers = {
-    trigger = timestamp()
+    image_tag = var.image_tags.network_mcp
   }
 }
 
@@ -613,7 +613,7 @@ resource "random_password" "bench_mcp_api_key" {
   special = false
 
   keepers = {
-    trigger = timestamp()
+    image_tag = var.image_tags.bench_mcp
   }
 }
 
