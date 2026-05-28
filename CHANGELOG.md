@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.1](https://github.com/rakettitiede/terraform-google-ai-talent/compare/v2.2.0...v2.2.1) (2026-05-28)
+
+
+### Bug Fixes
+
+* grant secretAccessor and add missing agileday env vars ([#14](https://github.com/rakettitiede/terraform-google-ai-talent/issues/14)) ([d6136c9](https://github.com/rakettitiede/terraform-google-ai-talent/commit/d6136c971f113f4fef633cf9c8d386496349dd7e))
+
 ## [2.2.0](https://github.com/rakettitiede/terraform-google-ai-talent/compare/v2.1.0...v2.2.0) (2026-05-27)
 
 
