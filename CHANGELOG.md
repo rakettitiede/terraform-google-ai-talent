@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.2](https://github.com/rakettitiede/terraform-google-ai-talent/compare/v2.2.1...v2.2.2) (2026-05-28)
+
+
+### Bug Fixes
+
+* set GCP_PROJECT_ID and GCP_LOCATION on agileday service ([#16](https://github.com/rakettitiede/terraform-google-ai-talent/issues/16)) ([c467db1](https://github.com/rakettitiede/terraform-google-ai-talent/commit/c467db1c145f04327c75adcf49a993f644084359))
+
 ## [2.2.1](https://github.com/rakettitiede/terraform-google-ai-talent/compare/v2.2.0...v2.2.1) (2026-05-28)
 
 
