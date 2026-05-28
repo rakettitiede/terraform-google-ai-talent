@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.3](https://github.com/rakettitiede/terraform-google-ai-talent/compare/v2.2.2...v2.2.3) (2026-05-28)
+
+
+### Bug Fixes
+
+* rotate API keys on image change instead of every apply ([#18](https://github.com/rakettitiede/terraform-google-ai-talent/issues/18)) ([791bda3](https://github.com/rakettitiede/terraform-google-ai-talent/commit/791bda359cab291e9224765a91239c3387033548))
+
 ## [2.2.2](https://github.com/rakettitiede/terraform-google-ai-talent/compare/v2.2.1...v2.2.2) (2026-05-28)
 
 
