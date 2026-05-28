@@ -33,6 +33,14 @@ resource "google_cloud_run_v2_service" "agileday" {
         value = var.partner
       }
       env {
+        name  = "GCS_BUCKET"
+        value = google_storage_bucket.agileday_db.name
+      }
+      env {
+        name  = "AGILEDAY_BASE_URL"
+        value = var.agileday_base_url
+      }
+      env {
         name = "GOOGLE_CLIENT_ID"
         value_source {
           secret_key_ref {
@@ -88,6 +96,12 @@ resource "google_storage_bucket_iam_member" "agileday_db" {
 resource "google_project_iam_member" "agileday_vertex" {
   project = var.project_id
   role    = "roles/aiplatform.user"
+  member  = "serviceAccount:${var.service_account}"
+}
+
+resource "google_project_iam_member" "secret_accessor" {
+  project = var.project_id
+  role    = "roles/secretmanager.secretAccessor"
   member  = "serviceAccount:${var.service_account}"
 }
 

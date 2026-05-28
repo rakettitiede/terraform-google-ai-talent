@@ -37,6 +37,11 @@ variable "artifact_registry_project_id" {
   default     = "ai-cv-match-471207"
 }
 
+variable "agileday_base_url" {
+  description = "Base URL for the AgileDay API that mcp-agileday queries."
+  type        = string
+}
+
 variable "gemini_model" {
   description = "Vertex AI Gemini model name used by all Slack bots"
   type        = string
