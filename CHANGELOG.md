@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.1](https://github.com/rakettitiede/terraform-google-ai-talent/compare/v2.3.0...v2.3.1) (2026-06-03)
+
+
+### Bug Fixes
+
+* demonstrate triage table format ([#25](https://github.com/rakettitiede/terraform-google-ai-talent/issues/25)) ([228a8b7](https://github.com/rakettitiede/terraform-google-ai-talent/commit/228a8b7caddbf02122ec65f5c331ff40c35e5c8c))
+
 ## [2.3.0](https://github.com/rakettitiede/terraform-google-ai-talent/compare/v2.2.3...v2.3.0) (2026-06-03)
 
 
