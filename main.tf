@@ -401,6 +401,22 @@ resource "google_cloud_run_v2_service" "minna" {
         value = google_cloud_run_v2_service.network_mcp.uri
       }
       env {
+        # Federation: local node + other partners' nodes. Minna fans search out across all of them.
+        name  = "MCP_API_URLS"
+        value = jsonencode(concat([google_cloud_run_v2_service.network_mcp.uri], var.partner_mcp_urls))
+      }
+      env {
+        # Multi-workspace bot-token map (team_id -> xoxb). Preferred over SLACK_BOT_TOKEN.
+        name = "SLACK_BOT_TOKENS"
+        value_source {
+          secret_key_ref {
+            secret  = google_secret_manager_secret.minna_bot_tokens[0].secret_id
+            version = "latest"
+          }
+        }
+      }
+      env {
+        # Single-token fallback, used when a workspace is not in SLACK_BOT_TOKENS.
         name = "SLACK_BOT_TOKEN"
         value_source {
           secret_key_ref {
@@ -444,6 +460,16 @@ resource "google_secret_manager_secret" "minna_bot_token" {
   count     = local.is_rakettitiede ? 1 : 0
   project   = var.project_id
   secret_id = "minna-bot-token"
+  replication {
+    auto {}
+  }
+}
+
+# Multi-workspace bot-token map: JSON object of { team_id: "xoxb-..." }. Value added manually.
+resource "google_secret_manager_secret" "minna_bot_tokens" {
+  count     = local.is_rakettitiede ? 1 : 0
+  project   = var.project_id
+  secret_id = "minna-bot-tokens"
   replication {
     auto {}
   }

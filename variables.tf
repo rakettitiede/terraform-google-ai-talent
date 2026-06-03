@@ -47,3 +47,9 @@ variable "gemini_model" {
   type        = string
   default     = "gemini-2.5-flash"
 }
+
+variable "partner_mcp_urls" {
+  description = "Base URLs of OTHER partners' mcp-talent-network nodes that Minna federates over (Rakettitiede deployment only). The local node is added automatically."
+  type        = list(string)
+  default     = []
+}
