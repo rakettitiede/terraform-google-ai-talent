@@ -17,3 +17,7 @@ image_tags = {
 # ── Optional ─────────────────────────────────────────────────────────────────
 region       = "europe-north1"
 gemini_model = "gemini-2.5-flash"
+
+# Rakettitiede only: other partners' mcp-talent-network node URLs that Minna federates over.
+# The local node is added automatically; list only the OTHER partners here.
+# partner_mcp_urls = ["https://mcp-talent-network-<partner>-xxxx.europe-north1.run.app"]
