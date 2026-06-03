@@ -270,6 +270,14 @@ resource "google_cloud_run_v2_service" "network_mcp" {
         value = var.partner
       }
       env {
+        name  = "GCS_BUCKET"
+        value = google_storage_bucket.network_db.name
+      }
+      env {
+        name  = "AGILEDAY_BASE_URL"
+        value = var.agileday_base_url
+      }
+      env {
         name = "GOOGLE_CLIENT_ID"
         value_source {
           secret_key_ref {
