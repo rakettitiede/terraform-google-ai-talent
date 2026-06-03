@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.0](https://github.com/rakettitiede/terraform-google-ai-talent/compare/v2.2.3...v2.3.0) (2026-06-03)
+
+
+### Features
+
+* reflect Minna multi-workspace + federation config ([#22](https://github.com/rakettitiede/terraform-google-ai-talent/issues/22)) ([e1ea5df](https://github.com/rakettitiede/terraform-google-ai-talent/commit/e1ea5dffc7ed41ef5c8f1684d287b2fae96e3056))
+
 ## [2.2.3](https://github.com/rakettitiede/terraform-google-ai-talent/compare/v2.2.2...v2.2.3) (2026-05-28)
 
 
