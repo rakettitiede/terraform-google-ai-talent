@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.2](https://github.com/rakettitiede/terraform-google-ai-talent/compare/v2.3.1...v2.3.2) (2026-06-04)
+
+
+### Bug Fixes
+
+* **terraform:** add GCP_PROJECT_ID and GCP_LOCATION env vars to network_mcp ([#28](https://github.com/rakettitiede/terraform-google-ai-talent/issues/28)) ([124ee01](https://github.com/rakettitiede/terraform-google-ai-talent/commit/124ee0159899a6791f672b981126e8dd442501bc))
+
 ## [2.3.1](https://github.com/rakettitiede/terraform-google-ai-talent/compare/v2.3.0...v2.3.1) (2026-06-03)
 
 
