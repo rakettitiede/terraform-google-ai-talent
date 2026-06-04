@@ -32,9 +32,8 @@ variable "image_tags" {
 }
 
 variable "artifact_registry_project_id" {
-  description = "GCP project hosting Docker images in Artifact Registry. Defaults to Rakettitiede's registry. Override only if self-hosting images."
+  description = "GCP project hosting Docker images in Artifact Registry. Required — must be explicitly provided."
   type        = string
-  default     = "ai-cv-match-471207"
 }
 
 variable "agileday_base_url" {

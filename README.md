@@ -85,9 +85,11 @@ See [ai-talent-platform/assistants/slack-general-setup.md](https://github.com/ra
 
 ## Docker images
 
-Images are pulled from Rakettitiede's Artifact Registry (`ai-cv-match-471207`) by default. Each service is pinned independently via the `image_tags` map:
+Docker images are pulled from a GCP Artifact Registry. Specify the project ID via `artifact_registry_project_id` (required). Each service is pinned independently via the `image_tags` map:
 
 ```hcl
+artifact_registry_project_id = "your-gcp-project-id"
+
 image_tags = {
   agileday    = "v3.12.1"
   pyry        = "v1.4.1"
@@ -98,16 +100,20 @@ image_tags = {
 }
 ```
 
-To self-host images, override `artifact_registry_project_id` with your own GCP project ID.
+For Rakettitiede deployments using the official images, contact your administrator for the correct project ID.
 
-## GCP AR access grant (Rakettitiede runs this for each partner)
+## GCP AR access grant (if using Rakettitiede's Artifact Registry)
+
+If your `artifact_registry_project_id` points to Rakettitiede's registry, run this to grant your service account access:
 
 ```bash
 for repo in mcp-agileday ai-talent-search-pyry mcp-talent-network; do
   gcloud artifacts repositories add-iam-policy-binding $repo \
     --location=europe-north1 \
-    --project=ai-cv-match-471207 \
-    --member="serviceAccount:PARTNER_SA@PARTNER_PROJECT.iam.gserviceaccount.com" \
+    --project=$ARTIFACT_REGISTRY_PROJECT_ID \
+    --member="serviceAccount:$SERVICE_ACCOUNT" \
     --role="roles/artifactregistry.reader"
 done
 ```
+
+Replace `$ARTIFACT_REGISTRY_PROJECT_ID` and `$SERVICE_ACCOUNT` with your values.
