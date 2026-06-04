@@ -266,6 +266,14 @@ resource "google_cloud_run_v2_service" "network_mcp" {
         value = "production"
       }
       env {
+        name  = "GCP_PROJECT_ID"
+        value = var.project_id
+      }
+      env {
+        name  = "GCP_LOCATION"
+        value = var.region
+      }
+      env {
         name  = "PARTNER"
         value = var.partner
       }
