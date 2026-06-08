@@ -6,7 +6,7 @@ agileday_base_url  = "https://api.agileday.example.com"
 
 # ── Images ───────────────────────────────────────────────────────────────────
 image_tags = {
-  agileday    = "v3.12.1"
+  search_mcp    = "v3.12.1"
   pyry        = "v1.4.1"
   network_mcp = "v0.8.0"
   minna       = "v1.3.0"
