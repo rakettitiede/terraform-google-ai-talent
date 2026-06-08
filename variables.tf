@@ -22,7 +22,7 @@ variable "partner" {
 variable "image_tags" {
   description = "Per-service Docker image tags. All keys required. Pin to specific releases — do not use latest in production."
   type = object({
-    agileday    = string
+    search_mcp  = string
     pyry        = string
     network_mcp = string
     minna       = string

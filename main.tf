@@ -8,14 +8,14 @@ locals {
 
 # ── Internal search ──────────────────────────────────────────────────────────
 
-resource "google_artifact_registry_repository" "agileday" {
+resource "google_artifact_registry_repository" "search_mcp" {
   project       = var.project_id
   repository_id = "mcp-agileday"
   format        = "DOCKER"
   location      = var.region
 }
 
-resource "google_cloud_run_v2_service" "agileday" {
+resource "google_cloud_run_v2_service" "search_mcp" {
   project  = var.project_id
   name     = "mcp-agileday"
   location = var.region
@@ -23,7 +23,7 @@ resource "google_cloud_run_v2_service" "agileday" {
   template {
     service_account = var.service_account
     containers {
-      image = "${var.region}-docker.pkg.dev/${var.artifact_registry_project_id}/mcp-agileday/mcp-agileday:${var.image_tags.agileday}"
+      image = "${var.region}-docker.pkg.dev/${var.artifact_registry_project_id}/mcp-agileday/mcp-agileday:${var.image_tags.search_mcp}"
       env {
         name  = "NODE_ENV"
         value = "production"
@@ -34,7 +34,7 @@ resource "google_cloud_run_v2_service" "agileday" {
       }
       env {
         name  = "GCS_BUCKET"
-        value = google_storage_bucket.agileday_db.name
+        value = google_storage_bucket.search_mcp_db.name
       }
       env {
         name  = "AGILEDAY_BASE_URL"
@@ -52,7 +52,7 @@ resource "google_cloud_run_v2_service" "agileday" {
         name = "GOOGLE_CLIENT_ID"
         value_source {
           secret_key_ref {
-            secret  = google_secret_manager_secret.agileday_client_id.secret_id
+            secret  = google_secret_manager_secret.search_mcp_client_id.secret_id
             version = "latest"
           }
         }
@@ -61,7 +61,7 @@ resource "google_cloud_run_v2_service" "agileday" {
         name = "GOOGLE_CLIENT_SECRET"
         value_source {
           secret_key_ref {
-            secret  = google_secret_manager_secret.agileday_client_secret.secret_id
+            secret  = google_secret_manager_secret.search_mcp_client_secret.secret_id
             version = "latest"
           }
         }
@@ -70,7 +70,7 @@ resource "google_cloud_run_v2_service" "agileday" {
         name = "API_KEY"
         value_source {
           secret_key_ref {
-            secret  = google_secret_manager_secret.agileday_api_key.secret_id
+            secret  = google_secret_manager_secret.search_mcp_api_key.secret_id
             version = "latest"
           }
         }
@@ -79,15 +79,15 @@ resource "google_cloud_run_v2_service" "agileday" {
   }
 }
 
-resource "google_cloud_run_v2_service_iam_member" "agileday_public" {
+resource "google_cloud_run_v2_service_iam_member" "search_mcp_public" {
   project  = var.project_id
-  name     = google_cloud_run_v2_service.agileday.name
+  name     = google_cloud_run_v2_service.search_mcp.name
   location = var.region
   role     = "roles/run.invoker"
   member   = "allUsers"
 }
 
-resource "google_storage_bucket" "agileday_db" {
+resource "google_storage_bucket" "search_mcp_db" {
   project                     = var.project_id
   name                        = "${var.project_id}-agileday-db"
   location                    = var.region
@@ -95,13 +95,13 @@ resource "google_storage_bucket" "agileday_db" {
   versioning { enabled = true }
 }
 
-resource "google_storage_bucket_iam_member" "agileday_db" {
-  bucket = google_storage_bucket.agileday_db.name
+resource "google_storage_bucket_iam_member" "search_mcp_db" {
+  bucket = google_storage_bucket.search_mcp_db.name
   role   = "roles/storage.objectAdmin"
   member = "serviceAccount:${var.service_account}"
 }
 
-resource "google_project_iam_member" "agileday_vertex" {
+resource "google_project_iam_member" "search_mcp_vertex" {
   project = var.project_id
   role    = "roles/aiplatform.user"
   member  = "serviceAccount:${var.service_account}"
@@ -113,7 +113,7 @@ resource "google_project_iam_member" "secret_accessor" {
   member  = "serviceAccount:${var.service_account}"
 }
 
-resource "google_secret_manager_secret" "agileday_client_id" {
+resource "google_secret_manager_secret" "search_mcp_client_id" {
   project   = var.project_id
   secret_id = "agileday-google-client-id"
   replication {
@@ -121,7 +121,7 @@ resource "google_secret_manager_secret" "agileday_client_id" {
   }
 }
 
-resource "google_secret_manager_secret" "agileday_client_secret" {
+resource "google_secret_manager_secret" "search_mcp_client_secret" {
   project   = var.project_id
   secret_id = "agileday-google-client-secret"
   replication {
@@ -129,16 +129,16 @@ resource "google_secret_manager_secret" "agileday_client_secret" {
   }
 }
 
-resource "random_password" "agileday_api_key" {
+resource "random_password" "search_mcp_api_key" {
   length  = 64
   special = false
 
   keepers = {
-    image_tag = var.image_tags.agileday
+    image_tag = var.image_tags.search_mcp
   }
 }
 
-resource "google_secret_manager_secret" "agileday_api_key" {
+resource "google_secret_manager_secret" "search_mcp_api_key" {
   project   = var.project_id
   secret_id = "ai-talent-search-mcp-api-key"
   replication {
@@ -146,9 +146,9 @@ resource "google_secret_manager_secret" "agileday_api_key" {
   }
 }
 
-resource "google_secret_manager_secret_version" "agileday_api_key" {
-  secret      = google_secret_manager_secret.agileday_api_key.id
-  secret_data = random_password.agileday_api_key.result
+resource "google_secret_manager_secret_version" "search_mcp_api_key" {
+  secret      = google_secret_manager_secret.search_mcp_api_key.id
+  secret_data = random_password.search_mcp_api_key.result
 }
 
 # ── Pyry (internal Slack bot) ─────────────────────────────────────────────────
@@ -187,7 +187,7 @@ resource "google_cloud_run_v2_service" "pyry" {
       }
       env {
         name  = "MCP_API_URL"
-        value = google_cloud_run_v2_service.agileday.uri
+        value = google_cloud_run_v2_service.search_mcp.uri
       }
       env {
         name = "SLACK_BOT_TOKEN"
@@ -219,9 +219,9 @@ resource "google_cloud_run_v2_service_iam_member" "pyry_public" {
   member   = "allUsers"
 }
 
-resource "google_cloud_run_v2_service_iam_member" "pyry_invokes_agileday" {
+resource "google_cloud_run_v2_service_iam_member" "pyry_invokes_search_mcp" {
   project  = var.project_id
-  name     = google_cloud_run_v2_service.agileday.name
+  name     = google_cloud_run_v2_service.search_mcp.name
   location = var.region
   role     = "roles/run.invoker"
   member   = "serviceAccount:${var.service_account}"
