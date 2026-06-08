@@ -1,6 +1,6 @@
-output "agileday_url" {
+output "search_mcp_url" {
   description = "mcp-agileday service URL"
-  value       = google_cloud_run_v2_service.agileday.uri
+  value       = google_cloud_run_v2_service.search_mcp.uri
 }
 
 output "pyry_url" {
