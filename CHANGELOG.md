@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.3](https://github.com/rakettitiede/terraform-google-ai-talent/compare/v2.3.2...v2.3.3) (2026-06-08)
+
+
+### Bug Fixes
+
+* **ci:** inline auto-triage workflow and harden project field population ([#30](https://github.com/rakettitiede/terraform-google-ai-talent/issues/30)) ([6449a62](https://github.com/rakettitiede/terraform-google-ai-talent/commit/6449a62eb4482dad309376177333b37551af3d3d))
+
 ## [2.3.2](https://github.com/rakettitiede/terraform-google-ai-talent/compare/v2.3.1...v2.3.2) (2026-06-04)
 
 
