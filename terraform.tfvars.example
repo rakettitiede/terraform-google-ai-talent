@@ -1,22 +1,23 @@
 # ── Required ─────────────────────────────────────────────────────────────────
-project_id      = "your-gcp-project-id"
-service_account = "SERVICE_ACCOUNT@your-gcp-project-id.iam.gserviceaccount.com"
-partner            = "your-company-name"
-agileday_base_url  = "https://api.agileday.example.com"
-
-# ── Images ───────────────────────────────────────────────────────────────────
-image_tags = {
-  search_mcp    = "v3.12.1"
-  pyry        = "v1.4.1"
-  network_mcp = "v0.8.0"
-  minna       = "v1.3.0"
-  bench_mcp   = "v1.5.0"
-  topi        = "v1.5.0"
-}
+project_id        = "your-gcp-project-id"
+service_account   = "SERVICE_ACCOUNT@your-gcp-project-id.iam.gserviceaccount.com"
+partner           = "your-company-name"
+agileday_base_url = "https://api.agileday.example.com"
 
 # ── Optional ─────────────────────────────────────────────────────────────────
 region       = "europe-north1"
 gemini_model = "gemini-2.5-flash"
+
+# Image tags default to versions tested with this module release.
+# Override to pin specific versions:
+# image_tags = {
+#   search_mcp  = "v3.12.2"
+#   pyry        = "v1.4.2"
+#   network_mcp = "v0.9.2"
+#   minna       = "v1.5.0"
+#   bench_mcp   = "v1.5.0"
+#   topi        = "v1.5.0"
+# }
 
 # Rakettitiede only: other partners' mcp-talent-network node URLs that Minna federates over.
 # The local node is added automatically; list only the OTHER partners here.

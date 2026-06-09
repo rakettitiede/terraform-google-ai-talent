@@ -85,16 +85,13 @@ See [ai-talent-platform/assistants/slack-general-setup.md](https://github.com/ra
 
 ## Docker images
 
-Images are pulled from Rakettitiede's Artifact Registry (`ai-cv-match-471207`) by default. Each service is pinned independently via the `image_tags` map:
+Images are pulled from Rakettitiede's Artifact Registry (`ai-cv-match-471207`) by default. Each module version ships with default image tags for all services — pinning the module version pins the service versions.
+
+To override specific tags:
 
 ```hcl
 image_tags = {
-  agileday    = "v3.12.1"
-  pyry        = "v1.4.1"
-  network_mcp = "v0.8.0"
-  minna       = "v1.3.0"
-  bench_mcp   = "v1.5.0"
-  topi        = "v1.5.0"
+  search_mcp = "v3.13.0"  # override one service
 }
 ```
 
