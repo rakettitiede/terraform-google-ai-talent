@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.4](https://github.com/rakettitiede/terraform-google-ai-talent/compare/v2.3.3...v2.3.4) (2026-06-09)
+
+
+### Bug Fixes
+
+* **terraform:** add secret versions for OAuth credentials ([#32](https://github.com/rakettitiede/terraform-google-ai-talent/issues/32)) ([af45b23](https://github.com/rakettitiede/terraform-google-ai-talent/commit/af45b2394302448c55fd138c7324696de72b615c))
+
 ## [2.3.3](https://github.com/rakettitiede/terraform-google-ai-talent/compare/v2.3.2...v2.3.3) (2026-06-08)
 
 
