@@ -20,15 +20,16 @@ variable "partner" {
 }
 
 variable "image_tags" {
-  description = "Per-service Docker image tags. All keys required. Pin to specific releases — do not use latest in production."
+  description = "Per-service Docker image tags. Defaults match this module version. Override to pin specific releases."
   type = object({
-    search_mcp  = string
-    pyry        = string
-    network_mcp = string
-    minna       = string
-    bench_mcp   = string
-    topi        = string
+    search_mcp  = optional(string, "v3.12.2")
+    pyry        = optional(string, "v1.4.2")
+    network_mcp = optional(string, "v0.9.2")
+    minna       = optional(string, "v1.5.0")
+    bench_mcp   = optional(string, "v1.5.0")
+    topi        = optional(string, "v1.5.0")
   })
+  default = {}
 }
 
 variable "artifact_registry_project_id" {
