@@ -162,7 +162,15 @@ DM Pyry in Slack: "Find a senior React developer"
 terraform output -raw network_mcp_url
 ```
 
-Rakettitiede will add your node and send a Minna install link. Have a workspace admin authorize it.
+Rakettitiede will:
+1. Add your node to Minna's federation
+2. Send you the Minna install link
+
+**Install Minna:**
+1. Have a workspace admin click the install link
+2. Authorize Minna for your workspace
+3. After authorization, send the redirect URL (contains a `code` parameter) back to Rakettitiede
+4. Rakettitiede will complete the token exchange and enable Minna for your workspace
 
 Test Minna: "Find a consultant with Kubernetes experience"
 
