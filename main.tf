@@ -77,6 +77,12 @@ resource "google_cloud_run_v2_service" "search_mcp" {
       }
     }
   }
+
+  depends_on = [
+    google_secret_manager_secret_version.search_mcp_client_id,
+    google_secret_manager_secret_version.search_mcp_client_secret,
+    google_secret_manager_secret_version.search_mcp_api_key
+  ]
 }
 
 resource "google_cloud_run_v2_service_iam_member" "search_mcp_public" {
@@ -126,6 +132,24 @@ resource "google_secret_manager_secret" "search_mcp_client_secret" {
   secret_id = "search_mcp-google-client-secret"
   replication {
     auto {}
+  }
+}
+
+resource "google_secret_manager_secret_version" "search_mcp_client_id" {
+  secret      = google_secret_manager_secret.search_mcp_client_id.id
+  secret_data = "REPLACE_WITH_ACTUAL_CLIENT_ID"
+
+  lifecycle {
+    ignore_changes = [secret_data]
+  }
+}
+
+resource "google_secret_manager_secret_version" "search_mcp_client_secret" {
+  secret      = google_secret_manager_secret.search_mcp_client_secret.id
+  secret_data = "REPLACE_WITH_ACTUAL_CLIENT_SECRET"
+
+  lifecycle {
+    ignore_changes = [secret_data]
   }
 }
 
