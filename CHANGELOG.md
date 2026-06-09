@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.0](https://github.com/rakettitiede/terraform-google-ai-talent/compare/v2.3.4...v2.4.0) (2026-06-09)
+
+
+### Features
+
+* **image_tags:** add default versions to simplify partner onboarding ([#34](https://github.com/rakettitiede/terraform-google-ai-talent/issues/34)) ([e0abf3b](https://github.com/rakettitiede/terraform-google-ai-talent/commit/e0abf3b4fb566b271e80af1ccfa8c5a2e742a2de))
+
 ## [2.3.4](https://github.com/rakettitiede/terraform-google-ai-talent/compare/v2.3.3...v2.3.4) (2026-06-09)
 
 
