@@ -49,8 +49,15 @@ done
 
 ---
 
-## Phase 3: Bootstrap Terraform State
+## Phase 3: Create Terraform State Bucket
 
+**Option A — gcloud:**
+```bash
+gcloud storage buckets create gs://YOUR_PROJECT_ID-terraform-state \
+  --location=europe-north1 --uniform-bucket-level-access
+```
+
+**Option B — bootstrap module:**
 ```bash
 mkdir tf-bootstrap && cd tf-bootstrap
 cat > main.tf << 'EOF'
@@ -63,7 +70,6 @@ output "state_bucket" { value = module.bootstrap.state_bucket }
 EOF
 
 terraform init && terraform apply
-STATE_BUCKET=$(terraform output -raw state_bucket)
 cd .. && rm -rf tf-bootstrap
 ```
 
