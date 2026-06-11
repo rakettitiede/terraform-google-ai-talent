@@ -233,6 +233,11 @@ resource "google_cloud_run_v2_service" "pyry" {
       }
     }
   }
+
+  depends_on = [
+    google_secret_manager_secret_version.pyry_bot_token,
+    google_secret_manager_secret_version.pyry_signing_secret
+  ]
 }
 
 resource "google_cloud_run_v2_service_iam_member" "pyry_public" {
@@ -259,11 +264,29 @@ resource "google_secret_manager_secret" "pyry_bot_token" {
   }
 }
 
+resource "google_secret_manager_secret_version" "pyry_bot_token" {
+  secret      = google_secret_manager_secret.pyry_bot_token.id
+  secret_data = "REPLACE_WITH_SLACK_BOT_TOKEN"
+
+  lifecycle {
+    ignore_changes = [secret_data]
+  }
+}
+
 resource "google_secret_manager_secret" "pyry_signing_secret" {
   project   = var.project_id
   secret_id = "pyry-slack-signing-secret"
   replication {
     auto {}
+  }
+}
+
+resource "google_secret_manager_secret_version" "pyry_signing_secret" {
+  secret      = google_secret_manager_secret.pyry_signing_secret.id
+  secret_data = "REPLACE_WITH_SLACK_SIGNING_SECRET"
+
+  lifecycle {
+    ignore_changes = [secret_data]
   }
 }
 
@@ -338,6 +361,12 @@ resource "google_cloud_run_v2_service" "network_mcp" {
       }
     }
   }
+
+  depends_on = [
+    google_secret_manager_secret_version.network_client_id,
+    google_secret_manager_secret_version.network_client_secret,
+    google_secret_manager_secret_version.network_mcp_api_key
+  ]
 }
 
 resource "google_cloud_run_v2_service_iam_member" "network_mcp_public" {
@@ -370,11 +399,29 @@ resource "google_secret_manager_secret" "network_client_id" {
   }
 }
 
+resource "google_secret_manager_secret_version" "network_client_id" {
+  secret      = google_secret_manager_secret.network_client_id.id
+  secret_data = "REPLACE_WITH_ACTUAL_CLIENT_ID"
+
+  lifecycle {
+    ignore_changes = [secret_data]
+  }
+}
+
 resource "google_secret_manager_secret" "network_client_secret" {
   project   = var.project_id
   secret_id = "talent-network-google-client-secret"
   replication {
     auto {}
+  }
+}
+
+resource "google_secret_manager_secret_version" "network_client_secret" {
+  secret      = google_secret_manager_secret.network_client_secret.id
+  secret_data = "REPLACE_WITH_ACTUAL_CLIENT_SECRET"
+
+  lifecycle {
+    ignore_changes = [secret_data]
   }
 }
 
