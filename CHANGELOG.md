@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.1](https://github.com/rakettitiede/terraform-google-ai-talent/compare/v2.4.0...v2.4.1) (2026-06-11)
+
+
+### Bug Fixes
+
+* **secrets:** add placeholder versions for pyry and network_mcp secrets ([#36](https://github.com/rakettitiede/terraform-google-ai-talent/issues/36)) ([e03aec1](https://github.com/rakettitiede/terraform-google-ai-talent/commit/e03aec1cceed37f832e2f4f4e52c03210c588f1d))
+
 ## [2.4.0](https://github.com/rakettitiede/terraform-google-ai-talent/compare/v2.3.4...v2.4.0) (2026-06-09)
 
 
