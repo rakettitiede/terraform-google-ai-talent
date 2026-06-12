@@ -488,12 +488,15 @@ resource "google_cloud_run_v2_service" "minna" {
         value = google_cloud_run_v2_service.network_mcp.uri
       }
       env {
-        # Federation: local node + other partners' nodes as { partner = url } map.
-        name  = "MCP_API_URLS"
-        value = jsonencode(merge(
-          { (var.partner) = google_cloud_run_v2_service.network_mcp.uri },
-          var.partner_mcp_urls
-        ))
+        # Federation: partner nodes map { partner = url }. Stored in Secret Manager to avoid
+        # JSON parsing issues with Cloud Run env vars.
+        name = "MCP_API_URLS"
+        value_source {
+          secret_key_ref {
+            secret  = google_secret_manager_secret.minna_mcp_api_urls[0].secret_id
+            version = "latest"
+          }
+        }
       }
       env {
         # Multi-workspace bot-token map (team_id -> xoxb). Preferred over SLACK_BOT_TOKEN.
@@ -526,6 +529,10 @@ resource "google_cloud_run_v2_service" "minna" {
       }
     }
   }
+
+  depends_on = [
+    google_secret_manager_secret_version.minna_mcp_api_urls
+  ]
 }
 
 resource "google_cloud_run_v2_service_iam_member" "minna_public" {
@@ -572,6 +579,26 @@ resource "google_secret_manager_secret" "minna_signing_secret" {
   replication {
     auto {}
   }
+}
+
+# Federation partner nodes map: JSON object of { partner: "url" }. Value managed via Secret Manager
+# to avoid JSON parsing issues with Cloud Run env vars.
+resource "google_secret_manager_secret" "minna_mcp_api_urls" {
+  count     = local.is_rakettitiede ? 1 : 0
+  project   = var.project_id
+  secret_id = "minna-mcp-api-urls"
+  replication {
+    auto {}
+  }
+}
+
+resource "google_secret_manager_secret_version" "minna_mcp_api_urls" {
+  count       = local.is_rakettitiede ? 1 : 0
+  secret      = google_secret_manager_secret.minna_mcp_api_urls[0].id
+  secret_data = jsonencode(merge(
+    { (var.partner) = google_cloud_run_v2_service.network_mcp.uri },
+    var.partner_mcp_urls
+  ))
 }
 
 # ── Topi + bench (Rakettitiede only) ─────────────────────────────────────────
