@@ -35,12 +35,12 @@ partner_mcp_urls = {
 }
 ```
 
-Then apply:
+Then apply (this updates the `minna-mcp-api-urls` secret with the new federation map):
 ```bash
 terraform apply
 ```
 - [ ] Added to partner_mcp_urls
-- [ ] Terraform applied
+- [ ] Terraform applied (creates new secret version with updated URLs)
 
 ## Install Minna in Partner Workspace
 
