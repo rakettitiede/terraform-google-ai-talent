@@ -1,42 +1,44 @@
 # Partner Onboarding Checklist
 
 ## Receive from Partner
-- [ ] Service account email
 - [ ] Partner identifier (lowercase)
+- [ ] GCP project number (not project ID)
 
 ## Grant Image Access
+
+Cloud Run uses a service agent to pull images. Grant access to the partner's Cloud Run Service Agent:
+
 ```bash
-PARTNER_SA="terraform-deployer@partner-project.iam.gserviceaccount.com"
+PROJECT_NUMBER="107604611556"  # Partner's project number
 for repo in mcp-agileday ai-talent-search-pyry mcp-talent-network; do
   gcloud artifacts repositories add-iam-policy-binding $repo \
     --project=ai-cv-match-471207 --location=europe-north1 \
-    --member="serviceAccount:$PARTNER_SA" --role="roles/artifactregistry.reader"
+    --member="serviceAccount:service-${PROJECT_NUMBER}@serverless-robot-prod.iam.gserviceaccount.com" \
+    --role="roles/artifactregistry.reader"
 done
 ```
 - [ ] Done
 
 ## Reply to Partner
 - [ ] Confirmed partner ID
-- [ ] Image tags:
-```bash
-for repo in mcp-agileday ai-talent-search-pyry mcp-talent-network; do
-  gcloud artifacts docker images list \
-    europe-north1-docker.pkg.dev/ai-cv-match-471207/$repo/$repo \
-    --include-tags --limit=3
-done
-```
+- [ ] Image access granted
 
 ## After Partner Deploys
 - [ ] Receive network_mcp_url
 
+**Update MCP_API_URLS secret** (JSON array of all partner node URLs):
 ```bash
-PARTNER_ID="ACME"
-PARTNER_URL="https://mcp-talent-network-xxxxx.run.app"
-gcloud run services update ai-talent-network-minna \
-  --region europe-north1 --project ai-cv-match-471207 \
-  --update-env-vars MCP_API_URL_$PARTNER_ID=$PARTNER_URL
+# Get current URLs
+gcloud secrets versions access latest --secret=minna-mcp-api-urls --project=ai-cv-match-471207
+
+# Add new partner URL to array and update secret
+# Example: ["https://node-a.run.app","https://node-b.run.app","https://new-partner.run.app"]
+NEW_URLS='["https://existing-partner.run.app","https://new-partner.run.app"]'
+
+echo -n "$NEW_URLS" | gcloud secrets versions add minna-mcp-api-urls \
+  --project=ai-cv-match-471207 --data-file=-
 ```
-- [ ] Added to Minna
+- [ ] Added to MCP_API_URLS
 
 ## Install Minna in Partner Workspace
 

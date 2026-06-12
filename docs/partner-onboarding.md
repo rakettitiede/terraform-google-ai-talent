@@ -13,11 +13,16 @@ Deploy Pyry (Slack talent search) and join the Minna federation (cross-company s
 
 ## Phase 1: GCP Setup
 
+Services run on Google Cloud. This phase enables the required APIs and creates a service account for Terraform to manage resources.
+
 ```bash
 gcloud config set project YOUR_PROJECT_ID
 
+# Enable Service Usage API first (required to enable other APIs)
+gcloud services enable serviceusage.googleapis.com
+
 gcloud services enable \
-  cloudrun.googleapis.com \
+  run.googleapis.com \
   artifactregistry.googleapis.com \
   secretmanager.googleapis.com \
   aiplatform.googleapis.com \
@@ -41,15 +46,24 @@ done
 
 ## Phase 2: Request Image Access
 
-**Email kalle@rakettitiede.com:**
-- Service account: `terraform-deployer@YOUR_PROJECT_ID.iam.gserviceaccount.com`
-- Partner identifier (lowercase): e.g., `acme`
+Container images are hosted in Rakettitiede's Artifact Registry. We need to grant your Cloud Run Service Agent read access before Terraform can deploy.
 
-**Wait for reply with:** confirmed partner ID.
+**Get your project number:**
+```bash
+gcloud projects describe YOUR_PROJECT_ID --format="value(projectNumber)"
+```
+
+**Email kalle@rakettitiede.com:**
+- Partner identifier (lowercase): e.g., `acme`
+- GCP project number (numeric, e.g., `107604611556`)
+
+**Wait for reply with:** confirmed partner ID and image access granted.
 
 ---
 
 ## Phase 3: Create Terraform State Bucket
+
+Terraform stores infrastructure state remotely in GCS. This enables team collaboration and state locking.
 
 **Option A — gcloud:**
 ```bash
@@ -76,6 +90,8 @@ cd .. && rm -rf tf-bootstrap
 ---
 
 ## Phase 4: Deploy
+
+This deploys three Cloud Run services: mcp-agileday (search backend), Pyry (Slack bot), and your federation node (for cross-company search).
 
 ```bash
 mkdir ai-talent && cd ai-talent
@@ -115,11 +131,13 @@ terraform init && terraform apply
 
 ## Phase 5: Create Slack App
 
+Pyry needs a Slack app to receive messages and respond. This creates the app, configures permissions, and connects it to your deployed service.
+
 1. https://api.slack.com/apps → Create New App → From scratch
 2. Name: `Pyry`, select workspace
 
 **OAuth & Permissions → Bot Token Scopes:**
-- `im:history`, `im:read`, `im:write`
+- `chat:write`, `im:history`, `im:read`, `im:write`
 
 Click **Install to Workspace**.
 
@@ -128,13 +146,13 @@ Click **Install to Workspace**.
 - Messages Tab
 - Allow users to send Slash commands and messages from the messages tab
 
-**Store credentials:**
+**Store credentials** (Pyry reads these at runtime to authenticate with Slack):
 ```bash
 echo -n "xoxb-your-bot-token" | gcloud secrets versions add pyry-bot-token --data-file=-
 echo -n "your-signing-secret" | gcloud secrets versions add pyry-slack-signing-secret --data-file=-
 ```
 
-**Event Subscriptions:**
+**Event Subscriptions** (tells Slack where to send messages):
 - Enable Events
 - Request URL: `https://PYRY_URL/slack/events`
 - Bot events: `message.im`, `app_home_opened`
@@ -142,6 +160,8 @@ echo -n "your-signing-secret" | gcloud secrets versions add pyry-slack-signing-s
 ---
 
 ## Phase 6: Initialize Database
+
+The search backend starts with an empty database. This fetches your consultant data from AgileDay and builds the search index.
 
 Get AgileDay token: Browser DevTools → Application → Cookies → copy session cookie.
 
@@ -157,11 +177,15 @@ curl -X POST "$(terraform output -raw search_mcp_url)/api/v1/refresh" \
 
 ## Phase 7: Verify Pyry
 
+Confirm Pyry can search your consultants.
+
 DM Pyry in Slack: "Find a senior React developer"
 
 ---
 
 ## Phase 8: Join Federation
+
+Your federation node allows Minna to include your consultants in cross-company searches. Minna returns anonymized results to protect consultant identity across companies.
 
 **Email kalle@rakettitiede.com:**
 ```bash
@@ -184,7 +208,7 @@ Test Minna: "Find a consultant with Kubernetes experience"
 
 ## Maintenance
 
-**Refresh database:**
+**Refresh database** (run periodically to sync new consultants and profile updates):
 ```bash
 API_KEY=$(gcloud secrets versions access latest --secret=ai-talent-search-mcp-api-key)
 curl -X POST "$(terraform output -raw search_mcp_url)/api/v1/refresh" \
