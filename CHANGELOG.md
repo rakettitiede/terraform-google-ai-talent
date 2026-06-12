@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.1.0](https://github.com/rakettitiede/terraform-google-ai-talent/compare/v3.0.0...v3.1.0) (2026-06-12)
+
+
+### Features
+
+* migrate MCP_API_URLS to Secret Manager ([#42](https://github.com/rakettitiede/terraform-google-ai-talent/issues/42)) ([789e9a1](https://github.com/rakettitiede/terraform-google-ai-talent/commit/789e9a10ba95aa513d49e452f350938d91605a18))
+
 ## [3.0.0](https://github.com/rakettitiede/terraform-google-ai-talent/compare/v2.4.1...v3.0.0) (2026-06-12)
 
 
