@@ -1,5 +1,16 @@
 # Changelog
 
+## [3.0.0](https://github.com/rakettitiede/terraform-google-ai-talent/compare/v2.4.1...v3.0.0) (2026-06-12)
+
+
+### ⚠ BREAKING CHANGES
+
+* **minna:** partner_mcp_urls type changed from list(string) to map(string).
+
+### Features
+
+* **minna:** change partner_mcp_urls from list to map ([#38](https://github.com/rakettitiede/terraform-google-ai-talent/issues/38)) ([83d3ec6](https://github.com/rakettitiede/terraform-google-ai-talent/commit/83d3ec6e7777f77f6ed03871ac72b9489eb86236))
+
 ## [2.4.1](https://github.com/rakettitiede/terraform-google-ai-talent/compare/v2.4.0...v2.4.1) (2026-06-11)
 
 
