@@ -206,8 +206,8 @@ resource "google_cloud_run_v2_service" "pyry" {
         value = var.region
       }
       env {
-        name  = "GEMINI_MODEL"
-        value = var.gemini_model
+        name  = "LLM_MODEL"
+        value = var.llm_model
       }
       env {
         name  = "MCP_API_URL"
@@ -480,8 +480,8 @@ resource "google_cloud_run_v2_service" "minna" {
         value = var.region
       }
       env {
-        name  = "GEMINI_MODEL"
-        value = var.gemini_model
+        name  = "LLM_MODEL"
+        value = var.llm_model
       }
       env {
         name  = "MCP_API_URL"
@@ -674,8 +674,8 @@ resource "google_cloud_run_v2_service" "topi" {
         value = var.region
       }
       env {
-        name  = "GEMINI_MODEL"
-        value = var.gemini_model
+        name  = "LLM_MODEL"
+        value = var.llm_model
       }
       env {
         name  = "BENCH_MCP_URL"
