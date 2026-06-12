@@ -6,7 +6,7 @@ agileday_base_url = "https://api.agileday.example.com"
 
 # ── Optional ─────────────────────────────────────────────────────────────────
 region       = "europe-north1"
-gemini_model = "gemini-2.5-flash"
+llm_model = "gemini-3.5-flash"
 
 # Image tags default to versions tested with this module release.
 # Override to pin specific versions:

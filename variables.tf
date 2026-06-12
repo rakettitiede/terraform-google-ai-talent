@@ -43,10 +43,10 @@ variable "agileday_base_url" {
   type        = string
 }
 
-variable "gemini_model" {
-  description = "Vertex AI Gemini model name used by all Slack bots"
+variable "llm_model" {
+  description = "LLM model name used by all Slack bots"
   type        = string
-  default     = "gemini-2.5-flash"
+  default     = "gemini-3.5-flash"
 }
 
 variable "partner_mcp_urls" {
