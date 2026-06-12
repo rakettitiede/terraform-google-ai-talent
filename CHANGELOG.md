@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.1.3](https://github.com/rakettitiede/terraform-google-ai-talent/compare/v3.1.2...v3.1.3) (2026-06-12)
+
+
+### Bug Fixes
+
+* rename GEMINI_MODEL to LLM_MODEL and default to gemini-3.5-flash ([#49](https://github.com/rakettitiede/terraform-google-ai-talent/issues/49)) ([95adb86](https://github.com/rakettitiede/terraform-google-ai-talent/commit/95adb86028e42e460bdd57a9cb6f460bd7fcb310))
+
 ## [3.1.2](https://github.com/rakettitiede/terraform-google-ai-talent/compare/v3.1.1...v3.1.2) (2026-06-12)
 
 
