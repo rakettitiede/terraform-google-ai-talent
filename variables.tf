@@ -50,7 +50,7 @@ variable "gemini_model" {
 }
 
 variable "partner_mcp_urls" {
-  description = "Base URLs of OTHER partners' mcp-talent-network nodes that Minna federates over (Rakettitiede deployment only). The local node is added automatically."
-  type        = list(string)
-  default     = []
+  description = "Map of OTHER partners' mcp-talent-network nodes that Minna federates over (Rakettitiede deployment only). Format: { partner = url }. The local node (keyed by var.partner) is added automatically."
+  type        = map(string)
+  default     = {}
 }

@@ -26,19 +26,21 @@ done
 ## After Partner Deploys
 - [ ] Receive network_mcp_url
 
-**Update MCP_API_URLS secret** (JSON array of all partner node URLs):
-```bash
-# Get current URLs
-gcloud secrets versions access latest --secret=minna-mcp-api-urls --project=ai-cv-match-471207
-
-# Add new partner URL to array and update secret
-# Example: ["https://node-a.run.app","https://node-b.run.app","https://new-partner.run.app"]
-NEW_URLS='["https://existing-partner.run.app","https://new-partner.run.app"]'
-
-echo -n "$NEW_URLS" | gcloud secrets versions add minna-mcp-api-urls \
-  --project=ai-cv-match-471207 --data-file=-
+**Update partner_mcp_urls in terraform.tfvars** (map of partner name to URL):
+```hcl
+partner_mcp_urls = {
+  partner-a   = "https://mcp-talent-network-aaa.run.app"
+  partner-b   = "https://mcp-talent-network-bbb.run.app"
+  new-partner = "https://mcp-talent-network-zzz.run.app"  # Add new partner
+}
 ```
-- [ ] Added to MCP_API_URLS
+
+Then apply:
+```bash
+terraform apply
+```
+- [ ] Added to partner_mcp_urls
+- [ ] Terraform applied
 
 ## Install Minna in Partner Workspace
 

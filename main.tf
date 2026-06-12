@@ -488,9 +488,12 @@ resource "google_cloud_run_v2_service" "minna" {
         value = google_cloud_run_v2_service.network_mcp.uri
       }
       env {
-        # Federation: local node + other partners' nodes. Minna fans search out across all of them.
+        # Federation: local node + other partners' nodes as { partner = url } map.
         name  = "MCP_API_URLS"
-        value = jsonencode(concat([google_cloud_run_v2_service.network_mcp.uri], var.partner_mcp_urls))
+        value = jsonencode(merge(
+          { (var.partner) = google_cloud_run_v2_service.network_mcp.uri },
+          var.partner_mcp_urls
+        ))
       }
       env {
         # Multi-workspace bot-token map (team_id -> xoxb). Preferred over SLACK_BOT_TOKEN.
