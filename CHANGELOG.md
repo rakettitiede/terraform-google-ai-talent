@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.1.1](https://github.com/rakettitiede/terraform-google-ai-talent/compare/v3.1.0...v3.1.1) (2026-06-12)
+
+
+### Bug Fixes
+
+* **docs:** correct partner_mcp_urls example to use map syntax ([#44](https://github.com/rakettitiede/terraform-google-ai-talent/issues/44)) ([9870c0f](https://github.com/rakettitiede/terraform-google-ai-talent/commit/9870c0f893eb7169f1db5a9cf2bda120cc2fa2bc))
+
 ## [3.1.0](https://github.com/rakettitiede/terraform-google-ai-talent/compare/v3.0.0...v3.1.0) (2026-06-12)
 
 
