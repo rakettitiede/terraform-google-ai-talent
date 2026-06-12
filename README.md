@@ -18,6 +18,38 @@ All candidate data is stored in your own GCP environment (Cloud Storage buckets)
 
 **Minna (Rakettitiede only):** Aggregates search results across all partner nodes, enabling cross-company talent discovery while preserving privacy.
 
-## Getting Started
+## Quick Start
 
-See [docs/partner-onboarding.md](docs/partner-onboarding.md) for setup instructions.
+For full setup instructions including GCP setup, Slack app configuration, and federation onboarding, see the [Partner Onboarding Guide](https://github.com/rakettitiede/terraform-google-ai-talent/blob/main/docs/partner-onboarding.md).
+
+**main.tf:**
+```hcl
+module "ai_talent" {
+  source            = "rakettitiede/ai-talent/google"
+  version           = "~> 3.0"
+  project_id        = "YOUR_PROJECT_ID"
+  service_account   = "terraform-deployer@YOUR_PROJECT_ID.iam.gserviceaccount.com"
+  partner           = "your-partner-id"
+  agileday_base_url = "https://api.agileday.io"
+}
+
+output "pyry_url" { value = module.ai_talent.pyry_url }
+output "search_mcp_url" { value = module.ai_talent.search_mcp_url }
+output "network_mcp_url" { value = module.ai_talent.network_mcp_url }
+```
+
+**backend.tf:**
+```hcl
+terraform {
+  backend "gcs" {
+    bucket = "YOUR_PROJECT_ID-terraform-state"
+    prefix = "ai-talent"
+  }
+}
+```
+
+**Deploy:**
+```bash
+terraform init
+terraform apply
+```
