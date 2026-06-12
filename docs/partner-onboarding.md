@@ -49,15 +49,17 @@ done
 Container images are hosted in Rakettitiede's Artifact Registry. We need to grant your Cloud Run Service Agent read access before Terraform can deploy.
 
 **Get your project number:**
+
 ```bash
 gcloud projects describe YOUR_PROJECT_ID --format="value(projectNumber)"
 ```
 
-**Email kalle@rakettitiede.com:**
+**Contact Rakettitiede (via Slack) with:**
+
 - Partner identifier (lowercase): e.g., `acme`
 - GCP project number (numeric, e.g., `107604611556`)
 
-**Wait for reply with:** confirmed partner ID and image access granted.
+**Wait for confirmation:** partner ID and image access granted.
 
 ---
 
@@ -66,12 +68,14 @@ gcloud projects describe YOUR_PROJECT_ID --format="value(projectNumber)"
 Terraform stores infrastructure state remotely in GCS. This enables team collaboration and state locking.
 
 **Option A — gcloud:**
+
 ```bash
 gcloud storage buckets create gs://YOUR_PROJECT_ID-terraform-state \
   --location=europe-north1 --uniform-bucket-level-access
 ```
 
 **Option B — bootstrap module:**
+
 ```bash
 mkdir tf-bootstrap && cd tf-bootstrap
 cat > main.tf << 'EOF'
@@ -98,10 +102,11 @@ mkdir ai-talent && cd ai-talent
 ```
 
 **main.tf:**
+
 ```hcl
 module "ai_talent" {
   source            = "rakettitiede/ai-talent/google"
-  version           = "~> 2.0"
+  version           = "~> 3.0"
   project_id        = "YOUR_PROJECT_ID"
   service_account   = "terraform-deployer@YOUR_PROJECT_ID.iam.gserviceaccount.com"
   partner           = "your-partner-id"
@@ -114,6 +119,7 @@ output "network_mcp_url" { value = module.ai_talent.network_mcp_url }
 ```
 
 **backend.tf:**
+
 ```hcl
 terraform {
   backend "gcs" {
@@ -133,26 +139,30 @@ terraform init && terraform apply
 
 Pyry needs a Slack app to receive messages and respond. This creates the app, configures permissions, and connects it to your deployed service.
 
-1. https://api.slack.com/apps → Create New App → From scratch
+1. [https://api.slack.com/apps](https://api.slack.com/apps) → Create New App → From scratch
 2. Name: `Pyry`, select workspace
 
 **OAuth & Permissions → Bot Token Scopes:**
+
 - `chat:write`, `im:history`, `im:read`, `im:write`
 
 Click **Install to Workspace**.
 
 **App Home** — enable all:
+
 - Home Tab
 - Messages Tab
 - Allow users to send Slash commands and messages from the messages tab
 
 **Store credentials** (Pyry reads these at runtime to authenticate with Slack):
+
 ```bash
 echo -n "xoxb-your-bot-token" | gcloud secrets versions add pyry-bot-token --data-file=-
 echo -n "your-signing-secret" | gcloud secrets versions add pyry-slack-signing-secret --data-file=-
 ```
 
 **Event Subscriptions** (tells Slack where to send messages):
+
 - Enable Events
 - Request URL: `https://PYRY_URL/slack/events`
 - Bot events: `message.im`, `app_home_opened`
@@ -187,16 +197,19 @@ DM Pyry in Slack: "Find a senior React developer"
 
 Your federation node allows Minna to include your consultants in cross-company searches. Minna returns anonymized results to protect consultant identity across companies.
 
-**Email kalle@rakettitiede.com:**
+**Contact Rakettitiede (via Slack) with your network URL:**
+
 ```bash
 terraform output -raw network_mcp_url
 ```
 
 Rakettitiede will:
+
 1. Add your node to Minna's federation
 2. Send you the Minna install link
 
 **Install Minna:**
+
 1. Have a workspace admin click the install link
 2. Authorize Minna for your workspace
 3. After authorization, send the redirect URL (contains a `code` parameter) back to Rakettitiede
@@ -209,6 +222,7 @@ Test Minna: "Find a consultant with Kubernetes experience"
 ## Maintenance
 
 **Refresh database** (run periodically to sync new consultants and profile updates):
+
 ```bash
 API_KEY=$(gcloud secrets versions access latest --secret=ai-talent-search-mcp-api-key)
 curl -X POST "$(terraform output -raw search_mcp_url)/api/v1/refresh" \
