@@ -4,107 +4,52 @@
 
 Terraform module for deploying the [ai-talent](https://github.com/rakettitiede/ai-talent-platform) ecosystem on GCP.
 
-## What gets deployed
+## Overview
 
-**All partners:**
-- `mcp-agileday` + Pyry Slack bot — internal consultant search
-- `mcp-talent-network` — anonymous federated search node
+This module deploys a talent search system that lets consultancies find the right people for projects — both internally and across partner companies.
 
-**Rakettitiede only (`partner = "rakettitiede"`):**
-- Minna Slack bot — federated search interface (aggregates all partner nodes)
-- `ai-talent-bench-mcp` + Topi Slack bot — salary projections
+For each partner, three services are deployed to your own GCP project:
 
-## Prerequisites
+- **mcp-agileday** — search backend that indexes your consultant data from AgileDay
+- **Pyry** — Slack bot for internal searches ("Find a senior React developer with fintech experience")
+- **mcp-talent-network** — federation node that exposes an anonymized view of your consultants to the Minna network
 
-- Terraform >= 1.7
-- GCP project with billing enabled
-- Service account with roles: `roles/run.admin`, `roles/artifactregistry.admin`, `roles/storage.admin`, `roles/secretmanager.admin`, `roles/iam.admin`, `roles/aiplatform.user`
-- `gcloud auth application-default login`
+All candidate data is stored in your own GCP environment (Cloud Storage buckets). Rakettitiede does not have access to your consultant database — only the anonymized search results you choose to expose via the federation node.
+
+**Minna (Rakettitiede only):** Aggregates search results across all partner nodes, enabling cross-company talent discovery while preserving privacy.
 
 ## Quick Start
 
-### 1. Bootstrap (once per project)
+For full setup instructions including GCP setup, Slack app configuration, and federation onboarding, see the [Partner Onboarding Guide](https://github.com/rakettitiede/terraform-google-ai-talent/blob/main/docs/partner-onboarding.md).
 
-Create a scratch directory and pull the bootstrap submodule straight from the Terraform Registry — no need to clone the repo:
-
-```fish
-mkdir /tmp/bootstrap-scratch && cd /tmp/bootstrap-scratch
-```
-
-Create a `main.tf`:
-
+**main.tf:**
 ```hcl
-module "bootstrap" {
-  source  = "rakettitiede/ai-talent/google//modules/bootstrap"
-  version = "~> 2.0"
-  project_id = "your-gcp-project-id"
+module "ai_talent" {
+  source            = "rakettitiede/ai-talent/google"
+  version           = "~> 3.0"
+  project_id        = "YOUR_PROJECT_ID"
+  service_account   = "terraform-deployer@YOUR_PROJECT_ID.iam.gserviceaccount.com"
+  partner           = "your-partner-id"
+  agileday_base_url = "https://api.agileday.io"
 }
 
-output "state_bucket" {
-  value = module.bootstrap.state_bucket
+output "pyry_url" { value = module.ai_talent.pyry_url }
+output "search_mcp_url" { value = module.ai_talent.search_mcp_url }
+output "network_mcp_url" { value = module.ai_talent.network_mcp_url }
+```
+
+**backend.tf:**
+```hcl
+terraform {
+  backend "gcs" {
+    bucket = "YOUR_PROJECT_ID-terraform-state"
+    prefix = "ai-talent"
+  }
 }
 ```
 
-```fish
+**Deploy:**
+```bash
 terraform init
 terraform apply
-# note the state_bucket output, then clean up:
-cd .. && rm -rf /tmp/bootstrap-scratch
-```
-
-> The bootstrap module uses local state (throwaway) because it creates the very GCS bucket that the root module needs for remote state.
-
-### 2. Deploy (ongoing)
-
-```fish
-cp terraform.tfvars.example terraform.tfvars
-# fill in project_id, service_account, partner, image_tags
-
-terraform init -backend-config=backend.tfvars
-terraform plan
-terraform apply
-```
-
-### 3. Populate Slack secrets
-
-After apply, add your Slack tokens:
-
-```bash
-echo -n "xoxb-your-token" | gcloud secrets versions add pyry-bot-token --data-file=-
-echo -n "your-signing-secret" | gcloud secrets versions add pyry-slack-signing-secret --data-file=-
-```
-
-See [ai-talent-platform/assistants/slack-general-setup.md](https://github.com/rakettitiede/ai-talent-platform/blob/main/assistants/slack-general-setup.md).
-
-## partner variable
-
-`partner` is required and must be unique per company, so Minna can identify results by source:
-
-- `rakettitiede` → deploys full stack including Minna and Topi
-- `partner A`, `partner B`, etc. → deploys internal search + federation node only
-
-## Docker images
-
-Images are pulled from Rakettitiede's Artifact Registry (`ai-cv-match-471207`) by default. Each module version ships with default image tags for all services — pinning the module version pins the service versions.
-
-To override specific tags:
-
-```hcl
-image_tags = {
-  search_mcp = "v3.13.0"  # override one service
-}
-```
-
-To self-host images, override `artifact_registry_project_id` with your own GCP project ID.
-
-## GCP AR access grant (Rakettitiede runs this for each partner)
-
-```bash
-for repo in mcp-agileday ai-talent-search-pyry mcp-talent-network; do
-  gcloud artifacts repositories add-iam-policy-binding $repo \
-    --location=europe-north1 \
-    --project=ai-cv-match-471207 \
-    --member="serviceAccount:PARTNER_SA@PARTNER_PROJECT.iam.gserviceaccount.com" \
-    --role="roles/artifactregistry.reader"
-done
 ```

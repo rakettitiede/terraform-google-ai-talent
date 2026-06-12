@@ -21,4 +21,7 @@ gemini_model = "gemini-2.5-flash"
 
 # Rakettitiede only: other partners' mcp-talent-network node URLs that Minna federates over.
 # The local node is added automatically; list only the OTHER partners here.
-# partner_mcp_urls = ["https://mcp-talent-network-<partner>-xxxx.europe-north1.run.app"]
+# partner_mcp_urls = {
+#   partner-a = "https://mcp-talent-network-xxxx.europe-north1.run.app"
+#   partner-b = "https://mcp-talent-network-yyyy.europe-north1.run.app"
+# }
