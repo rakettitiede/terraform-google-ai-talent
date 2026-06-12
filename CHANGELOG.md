@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.1.2](https://github.com/rakettitiede/terraform-google-ai-talent/compare/v3.1.1...v3.1.2) (2026-06-12)
+
+
+### Bug Fixes
+
+* migrate GitHub Actions to Node 24 ([#46](https://github.com/rakettitiede/terraform-google-ai-talent/issues/46)) ([1f4d2bd](https://github.com/rakettitiede/terraform-google-ai-talent/commit/1f4d2bdf150864569c5b0f7df8824024d06cc33d))
+
 ## [3.1.1](https://github.com/rakettitiede/terraform-google-ai-talent/compare/v3.1.0...v3.1.1) (2026-06-12)
 
 
